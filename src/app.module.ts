@@ -4,8 +4,6 @@ import { AuthModule } from './auth/auth.module';
 import { User } from './entities/user.entity';
 
 import * as dotenv from 'dotenv';
-import { PackagesModule } from './packages/packages.module';
-import { Package } from './entities/package.entity';
 
 // Load environment variables from .env file
 dotenv.config();
@@ -19,12 +17,11 @@ dotenv.config();
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      entities: [User, Package],
+      entities: [User],
       synchronize: true,
       ssl: process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : false,
     }),
     AuthModule,
-    PackagesModule,
   ],
 })
 export class AppModule {}
