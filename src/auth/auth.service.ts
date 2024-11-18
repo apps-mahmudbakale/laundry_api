@@ -219,9 +219,9 @@ export class AuthService {
     }
 
     // Generate a new OTP and update the user
-    const { otp } = this.generateOtp();
+    const { otp, otpExpires } = this.generateOtp();
     user.otp = otp;
-    // user.otpExpires = otpExpires;
+    user.otpExpires = otpExpires;
 
     // Save updated OTP to the user
     await this.userRepository.save(user);
