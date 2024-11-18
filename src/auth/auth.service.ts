@@ -210,4 +210,44 @@ export class AuthService {
 
     return { token };
   }
+
+  async sendForgotPasswordOtp(email: string): Promise<{ message: string }> {
+    // Check if the email exists in the system
+    const user = await this.userRepository.findOne({ where: { email } });
+    if (!user) {
+      throw new BadRequestException('Email not found');
+    }
+
+    // Generate a new OTP and update the user
+    const { otp } = this.generateOtp();
+    user.otp = otp;
+    // user.otpExpires = otpExpires;
+
+    // Save updated OTP to the user
+    await this.userRepository.save(user);
+
+    // Send the OTP via email
+    await this.sendOtpEmail(user.email, otp);
+
+    return { message: 'OTP sent successfully' };
+  }
+  // Verify OTP and Reset Password
+  async resetPassword(
+      email: string,
+      newPassword: string,
+  ): Promise<{ success: boolean; message: string }> {
+    const user = await this.userRepository.findOne({ where: { email } });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    // Hash the new password
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedPassword;
+
+    await this.userRepository.save(user);
+
+    return { success: true, message: 'Password reset successfully' };
+  }
 }
