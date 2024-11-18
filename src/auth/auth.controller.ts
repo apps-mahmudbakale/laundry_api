@@ -39,6 +39,35 @@ export class AuthController {
     return this.authService.resendOtp(email);
   }
 
+  // New endpoint for sending OTP for forgot password
+  @Post('send-forgot-password-otp')
+  async sendForgotPasswordOtp(@Body('email') email: string) {
+    if (!email) {
+      throw new BadRequestException('Email is required');
+    }
+
+    // Call the service method to generate and send the OTP
+    return this.authService.sendForgotPasswordOtp(email);
+  }
+
+  @Post('reset-password')
+  async resetPassword(@Body() body: { email: string; password: string }) {
+    const { email, password } = body;
+
+    // Manual validation
+    if (!email || !email.includes('@')) {
+      throw new BadRequestException('A valid email is required');
+    }
+    console.log(password);
+    if (!password || password.length < 8) {
+      throw new BadRequestException(
+          'New password must be at least 8 characters',
+      );
+    }
+
+    return this.authService.resetPassword(email, password);
+  }
+
   @Get('status')
   @UseGuards(JwtAuthGuard)
   async status(@Req() req: any) {
