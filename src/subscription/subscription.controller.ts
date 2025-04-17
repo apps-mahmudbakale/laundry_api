@@ -16,16 +16,9 @@ export class SubscriptionController {
   @Post()
   @HttpCode(HttpStatus.CREATED)
   async subscribe(
-    @Body('userId') userId: number,
-    @Body('packageId') packageId: number,
-    @Body('paymentReference') paymentReference: string,
-    @Body('plateNumbers') plateNumbers: any,
-  ) {
-    return this.subscriptionsService.subscribeUser(
-      userId,
-      packageId,
-      paymentReference,
-      plateNumbers,
-    );
+      userId: number,
+      packageId: number,
+      paymentReference: string, plateNumbers: string[]) {
+    return this.subscriptionsService.subscribeUser(userId, packageId, paymentReference, plateNumbers);
   }
 }
