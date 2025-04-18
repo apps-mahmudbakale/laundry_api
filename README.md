@@ -231,6 +231,156 @@ The Authentication Service provides secure user management with features such as
 + Errors:
   + ```404 Not Found:``` User not found.
 
+## Launder Service API Documentation
+
+### Overview
+
+The Launder Service manages launder entities, allowing creation, retrieval, updating, and deletion of launder records. It is built with NestJS and TypeORM, interacting with a Launder entity that stores details such as name, email, phone, password, state, address, NIN/BVN, bank name, and account number.
+
+### Endpoints
+
+### Create Launder
+
++ Endpoint: ```POST /launder```
++ Description: Creates a new launder entity.
++ Request Body:
+````bash
+{
+"name": "string",
+"email": "string",
+"phone": "string",
+"password": "string",
+"state": "string",
+"address": "string",
+"ninOrBvn": "string",
+"bankName": "string",
+"accountNumber": "string"
+}
+````
++ Response:
+````bash
+{
+"id": number,
+"name": "string",
+"email": "string",
+"phone": "string",
+"password": "string",
+"state": "string",
+"address": "string",
+"ninOrBvn": "string",
+"bankName": "string",
+"accountNumber": "string"
+}
+````
+
++ Errors:
+  + ```400 Bad Request```: Failed to create launder (e.g., invalid input or database error).
+
+### Get All Launders
++ Endpoint: ``GET /launder``
++ Description: Retrieves a list of all launder entities.
++ Request Body: None
++ Response:
+```bash
+[
+{
+"id": number,
+"name": "string",
+"email": "string",
+"phone": "string",
+"password": "string",
+"state": "string",
+"address": "string",
+"ninOrBvn": "string",
+"bankName": "string",
+"accountNumber": "string"
+}
+]
+```
++ Errors: None
+
+### Get Launder by ID
+
++ Endpoint: ```GET /launder/:id```
++ Description: Retrieves a single launder entity by its ID.
++ Parameters:
+````bash
+id: number (path parameter)
+````
++ Response:
+````bash
+{
+"id": number,
+"name": "string",
+"email": "string",
+"phone": "string",
+"password": "string",
+"state": "string",
+"address": "string",
+"ninOrBvn": "string",
+"bankName": "string",
+"accountNumber": "string"
+}
+````
++ Errors:
+  + None (returns ``null`` if launder is not found).
+
+### Update Launder
+
++ Endpoint: ```PATCH /launder/:id```
++ Description: Updates an existing launder entity by its ID.
++ Parameters:
+````bash
+id: number (path parameter)
+````
++ Request Body:
+````bash
+{
+"name": "string",
+"email": "string",
+"phone": "string",
+"password": "string",
+"state": "string",
+"address": "string",
+"ninOrBvn": "string",
+"bankName": "string",
+"accountNumber": "string"
+}
+````
++ Response:
+````bash
+{
+"id": number,
+"name": "string",
+"email": "string",
+"phone": "string",
+"password": "string",
+"state": "string",
+"address": "string",
+"ninOrBvn": "string",
+"bankName": "string",
+"accountNumber": "string"
+}
+````
++ Errors:
+  + None (returns ``null`` if launder is not found).
+
+### Delete Launder
++ Endpoint: ``DELETE /launder/:id``
++ Description: Deletes a launder entity by its ID.
++ Parameters:
+````bash
+id: number (path parameter)
+````
++ Response:
+```bash
+{
+"deleted": boolean
+}
+```
++ Errors:
+  + None (returns ```{ deleted: false }``` if launder is not found).
+
 ### Error Handling
 
 #### The service uses the following NestJS exceptions for error handling:
@@ -240,6 +390,7 @@ The Authentication Service provides secure user management with features such as
 + ```BadRequestException```: Invalid input (e.g., invalid OTP). 
 + ```UnauthorizedException```: Authentication failure (e.g., invalid credentials).
 + ```ForbiddenException```: Access denied (e.g., non-admin user).
++ ```BadRequestException```: Invalid input or database error during launder creation.
 
 ### Dependencies
 
