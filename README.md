@@ -381,6 +381,143 @@ id: number (path parameter)
 + Errors:
   + None (returns ```{ deleted: false }``` if launder is not found).
 
+Laundry Service Management
+
+Overview
+
+The Laundry Service Management system handles laundry service entities, allowing creation, retrieval, updating, and deletion of laundry service records. It supports querying services by type and is built with NestJS and TypeORM, interacting with a ```LaundryService``` entity.
+
+### Endpoints
+
+#### Create Laundry Service
+   + Endpoint: ```POST /laundry-service``` 
+   + Description: Creates a new laundry service entity. 
+   + Request Body:
+```bash
+{
+"type": "string",
+"description": "string",
+"price": number
+}
+```
++ Response:
+```bash
+{
+"id": number,
+"type": "string",
+"description": "string",
+"price": number
+}
+```
++ Errors: ``None``
+
+#### Get All Laundry Services
+
+
++ Endpoint: ```GET /laundry-service```
+
++ Description: Retrieves a list of all laundry service entities.
+
++ Request Body: ``None``
+
++ Response:
+```bash
+[
+{
+"id": number,
+"type": "string",
+"description": "string",
+"price": number
+}
+]
+```
+
++ Errors: ``None``
+
+#### Get Laundry Service by ID
+
++ Endpoint: ``GET /laundry-service/:id``
+
++ Description: Retrieves a single laundry service entity by its ID. 
++ Parameters:
+``
+id: number (path parameter)
+``
+
++ Response:
+````bash
+{
+"id": number,
+"type": "string",
+"description": "string",
+"price": number
+}
+````
+
++ Errors: None (returns null if service is not found).
+
+#### Get Laundry Services by Type
+
++ Endpoint: ```GET /laundry-service/type/:type```
++ Description: Retrieves all laundry service entities of a specific type. 
++ Parameters:
+```
+ type: string (path parameter)
+```
+
++ Response:
+```bash
+[
+{
+"id": number,
+"type": "string",
+"description": "string",
+"price": number
+}
+]
+```
+
++ Errors: None
+
+#### Update Laundry Service
+
++ Endpoint: ```PATCH /laundry-service/:id```
++ Description: Updates an existing laundry service entity by its ID. 
++ Parameters:
+```
+id: number (path parameter)
+
+```
++ Request Body:
+```bash
+{
+"type": "string",
+"description": "string",
+"price": number
+}
+```
++ Response:
+```bash
+{
+"id": number,
+"type": "string",
+"description": "string",
+"price": number
+}
+```
++ Errors: None (returns null if service is not found).
+
+#### Delete Laundry Service
+
+
++ Endpoint: ```DELETE /laundry-service/:id```
++ Description: Deletes a laundry service entity by its ID. 
++ Parameters:
+```id: number (path parameter)```
+
++ Response: None (204 No Content)
++ Errors: None
+
 ### Error Handling
 
 #### The service uses the following NestJS exceptions for error handling:
