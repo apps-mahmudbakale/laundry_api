@@ -518,6 +518,144 @@ id: number (path parameter)
 + Response: None (204 No Content)
 + Errors: None
 
+### Packages Service
+## Overview
+
+The Packages Service manages package entities, allowing creation, retrieval, updating, and deletion of packages with associated services. It is built with NestJS and TypeORM, interacting with Package and Service entities, where each package can have multiple services linked to it.
+### Endpoints
+## Create Package
+
++ Endpoint: ``POST /packages``
++ Description: Creates a new package entity with associated services. 
++ Request Body:
+````bash
+
+    {
+      "name": "string",
+      "description": "string",
+      "price": number,
+      "services": [
+        {
+          "name": "string",
+          "description": "string",
+          "price": number
+        }
+      ]
+    }
+````
++ Response:
+  ````bash  
+
+    {
+      "id": number,
+      "name": "string",
+      "description": "string",
+      "price": number,
+      "services": [
+        {
+          "id": number,
+          "name": "string",
+          "description": "string",
+          "price": number
+        }
+      ]
+    }
+  ````
+
++ Errors: None
+
+### Get All Packages
+
++ Endpoint: ``GET /packages``
++ Description: Retrieves a list of all package entities with their associated services. 
++ Request Body: ``None``
++ Response:
+````bash
+    [
+      {
+        "id": number,
+        "name": "string",
+        "description": "string",
+        "price": number,
+        "services": [
+          {
+            "id": number,
+            "name": "string",
+            "description": "string",
+            "price": number
+          }
+        ]
+      }
+    ]
+````
++ Errors: ``None``
+
+### Get Package by ID
+ + Endpoint: ``GET /packages/:id``
+ + Description: Retrieves a single package entity by its ID, including its associated services. 
+   + Parameters:
+   ``id: number (path parameter)``
+   + Response:
+````bash
+      {
+        "id": number,
+        "name": "string",
+        "description": "string",
+        "price": number,
+        "services": [
+          {
+            "id": number,
+            "name": "string",
+            "description": "string",
+            "price": number
+          }
+        ]
+      }
+````
++ Errors: None (returns null if package is not found).
+
+### Update Package
+ + Endpoint: ```PATCH /packages/:id```
+ + Description: Updates an existing package entity by its ID. Note: This endpoint does not update associated services. 
+ + Parameters:
+ ```id: number (path parameter)```
+ + Request Body:
+````bash
+    {
+      "name": "string",
+      "description": "string",
+      "price": number
+    }
+````
++ Response:
+````bash
+    {
+      "id": number,
+      "name": "string",
+      "description": "string",
+      "price": number,
+      "services": [
+        {
+          "id": number,
+          "name": "string",
+          "description": "string",
+          "price": number
+        }
+      ]
+    }
+````
++ Errors: None (returns null if package is not found).
+
+### Delete Package
+
++ Endpoint: ```DELETE /packages/:id```
++ Description: Deletes a package entity by its ID. 
++ Parameters:
+```` id: number (path parameter)````
++ Response: None (204 No Content)
++ Errors: None
+
+
 ### Error Handling
 
 #### The service uses the following NestJS exceptions for error handling:
