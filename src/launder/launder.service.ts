@@ -1,9 +1,10 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import {Injectable, BadRequestException, NotFoundException} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DeleteResult } from 'typeorm'; // Import DeleteResult
 import { Launder } from '../entities/launder.entity';
 import { CreateLaunderDTO } from './dto/create-launder.dto';
 import { UpdateLaunderDTO } from './dto/update-launder.dto';
+import {UpdateKycDto} from "./dto/update-kyc.dto";
 
 @Injectable()
 export class LaunderService {
@@ -42,6 +43,15 @@ export class LaunderService {
 
     async findOne(id: number): Promise<Launder | null> {
         return await this.launderRepository.findOne({ where: { id } });
+    }
+
+    async updateKyc(launderId: string, dto: UpdateKycDto) {
+        // @ts-ignore
+        const launder = await this.launderRepository.findOne({ where: { id: launderId } });
+        if (!launder) throw new NotFoundException('Launder not found');
+
+        Object.assign(launder, dto);
+        return this.launderRepository.save(launder);
     }
 
     async update(id: number, updateLaunderDto: UpdateLaunderDTO): Promise<Launder | null> {
