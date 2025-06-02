@@ -5,10 +5,11 @@ import {LaunderAuthService} from './launder-auth.service';
 import {LaunderAuthController} from './launder-auth.controller';
 import {TypeOrmModule} from "@nestjs/typeorm";
 import {Launder} from "../../entities/launder.entity";
+import {Order} from "../../entities/order.entity";
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([Launder]),
+        TypeOrmModule.forFeature([Launder, Order]),
         JwtModule.register({
             secret: process.env.JWT_SECRET || 'defaultSecret',
             signOptions: {expiresIn: '1d'},

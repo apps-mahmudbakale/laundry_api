@@ -11,6 +11,7 @@ import { LaunderAuthModule } from './launder-auth/launder-auth.module';
 import {LaunderAuthService} from "./launder-auth/launder-auth.service";
 import {LaunderAuthController} from "./launder-auth/launder-auth.controller";
 import {Launder} from "../entities/launder.entity";
+import {Order} from "../entities/order.entity";
 
 @Module({
   imports: [
@@ -19,7 +20,7 @@ import {Launder} from "../entities/launder.entity";
       secret: 'abc123',
       signOptions: { expiresIn: '1h' },
     }),
-    TypeOrmModule.forFeature([User, Launder]),
+    TypeOrmModule.forFeature([User, Launder, Order]),
     LaunderAuthModule,
   ],
   controllers: [AuthController, LaunderAuthController],

@@ -1,8 +1,16 @@
-import { IsString, IsNotEmpty, IsEmail, IsArray, ValidateNested, IsOptional, IsNumber } from 'class-validator';
+import {
+    IsString,
+    IsNotEmpty,
+    IsEmail,
+    IsArray,
+    ValidateNested,
+    IsOptional,
+    IsNumber,
+} from 'class-validator';
 import { Type } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
-class ServicePricingDTO {
+export class ServicePricingDTO {
     @ApiProperty({ description: 'Name of the service', example: 'Dry Cleaning' })
     @IsString()
     @IsNotEmpty()
@@ -67,8 +75,9 @@ export class CreateLaunderDTO {
 
     @ApiPropertyOptional({
         description: 'List of service pricings',
-        type: [ServicePricingDTO]
+        type: [ServicePricingDTO],
     })
+    @IsOptional()
     @IsArray()
     @ValidateNested({ each: true })
     @Type(() => ServicePricingDTO)
@@ -125,4 +134,14 @@ export class UpdateLaunderDTO {
     @IsOptional()
     @IsString()
     accountNumber?: string;
+
+    @ApiPropertyOptional({
+        description: 'Updated list of service pricings',
+        type: [ServicePricingDTO],
+    })
+    @IsOptional()
+    @IsArray()
+    @ValidateNested({ each: true })
+    @Type(() => ServicePricingDTO)
+    servicePricings?: ServicePricingDTO[];
 }

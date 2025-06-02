@@ -6,7 +6,7 @@ import {
     Param,
     Patch,
     Req,
-    UseGuards,
+    UseGuards, Query,
 } from '@nestjs/common';
 import { LaunderAuthService } from './launder-auth.service';
 import { CreateLaunderDTO } from '../../launder/dto/create-launder.dto';
@@ -14,9 +14,10 @@ import { AuthPayloadDto } from '../dto/auth.dto';
 import { VerifyOtpDto } from '../dto/verify-otp.dto';
 import { ResetPasswordDto } from '../dto/reset-password.dto';
 import { UpdateLocationDto } from '../dto/update-location.dto';
+import { UpdateProfileDto } from '../dto/update-profile.dto'; // Make sure this DTO exists
 import { JwtAuthGuard } from '../guards/jwt.guard';
 
-@Controller('launder-auth')
+@Controller('provider')
 export class LaunderAuthController {
     constructor(private readonly launderAuthService: LaunderAuthService) {}
 
@@ -57,8 +58,43 @@ export class LaunderAuthController {
     }
 
     @UseGuards(JwtAuthGuard)
+    @Patch('profile')
+    updateProfile(@Req() req, @Body() dto: UpdateProfileDto) {
+        return this.launderAuthService.updateProfile(req.user.id, dto);
+    }
+
+    @UseGuards(JwtAuthGuard)
     @Get('profile')
     getProfile(@Req() req) {
         return this.launderAuthService.getProfile(req.user.id);
+    }
+    @UseGuards(JwtAuthGuard)
+    @Get('orders')
+    getOrders(@Req() req, @Query('status') status?: string) {
+        return this.launderAuthService.getOrders(req.user.id, status);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Get('orders/:orderId')
+    getOrderById(@Req() req, @Param('orderId') orderId: string) {
+        return this.launderAuthService.getOrderById(req.user.id, orderId);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Post('orders/:orderId/accept')
+    acceptOrder(@Req() req, @Param('orderId') orderId: string) {
+        return this.launderAuthService.acceptOrder(req.user.id, orderId);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Post('orders/:orderId/decline')
+    declineOrder(@Req() req, @Param('orderId') orderId: string) {
+        return this.launderAuthService.declineOrder(req.user.id, orderId);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Post('orders/:orderId/complete')
+    completeOrder(@Req() req, @Param('orderId') orderId: string) {
+        return this.launderAuthService.completeOrder(req.user.id, orderId);
     }
 }

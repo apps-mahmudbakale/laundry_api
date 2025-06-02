@@ -7,7 +7,7 @@ import { JwtAuthGuard } from './guards/jwt.guard';
 import { SignupDto } from './dto/signup.dto';
 import { use } from 'passport';
 
-@Controller('auth')
+@Controller('client')
 export class AuthController {
   constructor(private readonly authService: AuthService) { }
 
@@ -105,12 +105,12 @@ export class AuthController {
 
     return { message: 'Location updated successfully' };
   }
-  // Admin Login (email and password)
-  @Post('admin/login')
-  async adminLogin(
-    @Body('email') email: string,
-    @Body('password') password: string,
-  ) {
-    return await this.authService.adminLogin(email, password);
-  }
+  // // Admin Login (email and password)
+  // @Post('admin/login')
+  // async adminLogin(
+  //   @Body('email') email: string,
+  //   @Body('password') password: string,
+  // ) {
+  //   return await this.authService.adminLogin(email, password);
+  // }
 }

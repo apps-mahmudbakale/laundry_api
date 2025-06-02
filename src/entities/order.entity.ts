@@ -1,16 +1,7 @@
 export class Order {
     id: string;
-    items: Item[];
-    totalCost: number;
-    subscriptionLimit: number;
-    remainingItems: number;
+    client_id: number;
+    provider_id: number;
+    status: string;
     createdAt: Date;
-}
-
-export class Item {
-    name: string;
-    description: string;
-    quantity: number;
-    pricePerItem: number;
-    totalPrice: number;
 }

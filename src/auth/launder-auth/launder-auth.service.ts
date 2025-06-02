@@ -13,7 +13,9 @@ import { JwtService } from '@nestjs/jwt';
 
 import { Launder } from '../../entities/launder.entity'
 import { CreateLaunderDTO } from '../../launder/dto/create-launder.dto'; // create this dto
-import { AuthPayloadDto } from '../dto/auth.dto'; // create this dto
+import { AuthPayloadDto } from '../dto/auth.dto';
+import { UpdateProfileDto } from "../dto/update-profile.dto";
+import {Order} from "../../entities/order.entity";
 
 @Injectable()
 export class LaunderAuthService {
@@ -21,6 +23,8 @@ export class LaunderAuthService {
         @InjectRepository(Launder)
         private readonly launderRepository: Repository<Launder>,
         private readonly jwtService: JwtService,
+        @InjectRepository(Order)
+        private readonly orderRepository: Repository<Order>,
     ) {}
 
     private generateOtp(): { otp: string; otpExpires: Date } {
@@ -49,7 +53,7 @@ export class LaunderAuthService {
     }
 
     async register(createDto: CreateLaunderDTO): Promise<{ id: number; businessName: string; email: string }> {
-        const { name, phone,  businessName, email, password } = createDto;
+        const { name, phone,  businessName, email, password, address, bankName,accountNumber, state, ninOrBvn } = createDto;
 
         const existing = await this.launderRepository.findOne({ where: { email } });
         if (existing) throw new ConflictException('Email already registered');
@@ -61,6 +65,11 @@ export class LaunderAuthService {
             name,
             phone,
             businessName,
+            address,
+            bankName,
+            accountNumber,
+            state,
+            ninOrBvn,
             email,
             password: hashed,
             otp,
@@ -164,6 +173,63 @@ export class LaunderAuthService {
         if (!launder) throw new NotFoundException('Profile not found');
 
         return launder;
+    }
+
+    async updateProfile(userId: any, dto: UpdateProfileDto) {
+        const user = await this.launderRepository.findOne({ where: { id: userId } });
+
+        if (!user) {
+            throw new NotFoundException('User not found');
+        }
+
+        Object.assign(user, dto); // Or update fields individually
+        return await this.launderRepository.save(user);
+    }
+
+    async getOrders(providerId: string, status?: string) {
+        const query = this.orderRepository.createQueryBuilder('order')
+            .where('order.providerId = :providerId', { providerId });
+
+        if (status) {
+            query.andWhere('order.status = :status', { status });
+        }
+
+        return query.getMany(); // Add pagination as needed
+    }
+
+    async getOrderById(providerId: string, orderId: string) {
+        const order = await this.orderRepository.findOne({
+            where: { id: orderId }
+        });
+        if (!order) throw new NotFoundException('Order not found');
+        return order;
+    }
+
+    async acceptOrder(providerId: string, orderId: string) {
+        const order = await this.getOrderById(providerId, orderId);
+        order.status = 'accepted';
+        await this.orderRepository.save(order);
+
+        // Notify client logic here
+        return { message: 'Order accepted', status: order.status };
+    }
+
+    async declineOrder(providerId: string, orderId: string) {
+        const order = await this.getOrderById(providerId, orderId);
+        order.status = 'declined';
+        await this.orderRepository.save(order);
+
+        // Notify client & suggest alternatives
+        return { message: 'Order declined', status: order.status };
+    }
+
+    async completeOrder(providerId: string, orderId: string) {
+        const order = await this.getOrderById(providerId, orderId);
+        order.status = 'completed';
+        await this.orderRepository.save(order);
+
+        // Notify client for confirmation
+        return { message: 'Order marked as completed', status: order.status };
     }
 
 }
