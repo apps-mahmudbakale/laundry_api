@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('launder') // Explicit table name
+@Entity('launder')
 export class Launder {
     @PrimaryGeneratedColumn()
     id: number;
@@ -18,7 +18,7 @@ export class Launder {
     phone: string;
 
     @Column({ nullable: false })
-    password: string; // Note: In production, you should hash this!
+    password: string;
 
     @Column({ nullable: true })
     otp: string;
@@ -35,6 +35,7 @@ export class Launder {
     @Column({ nullable: true })
     ninOrBvn: string;
 
+
     @Column({ nullable: true })
     bankName: string;
 
@@ -42,10 +43,11 @@ export class Launder {
     accountNumber: string;
 
     @Column({ nullable: true })
-    business_reg_no: string;
+    bankPin: number;
 
     @Column({ nullable: true })
-    business_address: string;
+    business_reg_no: string;
+
 
     @Column({ nullable: true })
     id_card_front: string;

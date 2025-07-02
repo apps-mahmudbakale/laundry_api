@@ -105,12 +105,4 @@ export class AuthController {
 
     return { message: 'Location updated successfully' };
   }
-  // // Admin Login (email and password)
-  // @Post('admin/login')
-  // async adminLogin(
-  //   @Body('email') email: string,
-  //   @Body('password') password: string,
-  // ) {
-  //   return await this.authService.adminLogin(email, password);
-  // }
 }

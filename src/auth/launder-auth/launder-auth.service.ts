@@ -53,7 +53,7 @@ export class LaunderAuthService {
     }
 
     async register(createDto: CreateLaunderDTO): Promise<{ id: number; businessName: string; email: string }> {
-        const { name, phone,  businessName, email, password, address, bankName,accountNumber, state, ninOrBvn } = createDto;
+        const { name, phone,  businessName, email, password, address, bankName,accountNumber, bankPin, state, ninOrBvn, business_reg_no, id_card_front, id_card_back } = createDto;
 
         const existing = await this.launderRepository.findOne({ where: { email } });
         if (existing) throw new ConflictException('Email already registered');
@@ -66,8 +66,12 @@ export class LaunderAuthService {
             phone,
             businessName,
             address,
+            business_reg_no,
+            id_card_front,
+            id_card_back,
             bankName,
             accountNumber,
+            bankPin,
             state,
             ninOrBvn,
             email,

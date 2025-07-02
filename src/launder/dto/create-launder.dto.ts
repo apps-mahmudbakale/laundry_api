@@ -33,6 +33,26 @@ export class CreateLaunderDTO {
     @IsNotEmpty()
     businessName: string;
 
+    @ApiProperty({ description: 'Business address', example: '123 Business St, Lagos' })
+    @IsString()
+    @IsNotEmpty()
+    address: string;
+
+    @ApiProperty({ description: 'Business Registration Number', example: 'ABJ-JSHF-02452-SF' })
+    @IsString()
+    @IsNotEmpty()
+    business_reg_no: string;
+
+    @ApiProperty({ description: 'National Identification Number or BVN document Front  in base64', example: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAApgAAAKYB3X3/OAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAANCSURBVEiJtZZPbBtFFMZ/' })
+    @IsString()
+    @IsNotEmpty()
+    id_card_front: string;
+
+    @ApiProperty({ description: 'National Identification Number or BVN document Back  in base64', example: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAApgAAAKYB3X3/OAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAANCSURBVEiJtZZPbBtFFMZ/' })
+    @IsString()
+    @IsNotEmpty()
+    id_card_back: string;
+
     @ApiProperty({ description: 'Email address', example: 'john@example.com' })
     @IsEmail()
     @IsNotEmpty()
@@ -53,11 +73,6 @@ export class CreateLaunderDTO {
     @IsNotEmpty()
     state: string;
 
-    @ApiProperty({ description: 'Business address', example: '123 Business St, Lagos' })
-    @IsString()
-    @IsNotEmpty()
-    address: string;
-
     @ApiProperty({ description: 'National Identification Number or BVN', example: '12345678901' })
     @IsString()
     @IsNotEmpty()
@@ -67,6 +82,11 @@ export class CreateLaunderDTO {
     @IsString()
     @IsNotEmpty()
     bankName: string;
+
+    @ApiProperty({ description: 'Transaction Pin', example: '2344' })
+    @IsNumber()
+    @IsNotEmpty()
+    bankPin: number;
 
     @ApiProperty({ description: 'Bank account number', example: '1234567890' })
     @IsString()
